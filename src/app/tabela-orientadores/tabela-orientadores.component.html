@@ -1,0 +1,22 @@
+<h3>{{titulo}}</h3>
+<table>
+	<tr>
+		<th>Codigo</th>
+		<th>Aluno</th>
+		<th>Professor</th>
+		<th>TCC</th>
+		<th>Editar</th>
+		<th>Remover</th>
+	</tr>
+	<tr *ngFor='let orientador of orientadores'>
+		<td>{{orientador.codigo}}</td>
+		<td>{{orientador.aluno.nome}}</td>
+		<td>{{orientador.professor.nome}}</td>
+		<td>{{orientador.tcc}}</td>
+		<td><a [routerLink]="['/orientadores/edicao', orientador.codigo]"><span class="glyphicon glyphicon-pencil"></span></a></td>
+		<td><a routerLink="/orientadores/lista" (click)="remover(orientador)"><span class="glyphicon glyphicon-trash"></span></a></td>
+	</tr>
+</table>
+<br/>
+
+<button type="button" class="btn btn-primary" routerLink="/orientadores/novo">Vincular aluno a um orientador</button>

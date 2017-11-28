@@ -1,0 +1,33 @@
+<h3>{{titulo}}</h3>
+<div class='form'>
+	<form>
+      <label for="alunos" style="width: 100px">Aluno</label>
+      <select name="alunos" id="alunos" [(ngModel)]="orientador.aluno">
+        <option *ngFor="let a of (alunos | orientados)" [ngValue]="a">
+          {{a.nome}}
+        </option>
+      </select>
+      <br/>
+      <label for="professores" style="width: 100px">Professor</label>
+      <select name="professores" id="professores" [(ngModel)]="orientador.professor" required>
+        <option *ngFor="let p of (professores | semVaga)" [ngValue]="p">
+          {{p.nome}} - Vagas: {{p.vagas}}
+        </option>
+      </select>
+      <br/>
+      <label for="tcc" style="width: 100px">TCC</label>
+      <select name="tcc" id="tcc" [(ngModel)]="orientador.tcc" required>
+        <option value=1>1</option>
+        <option value=2>2</option>
+      </select>
+    
+      <h4 style="color: red;text-align:center">{{erro}}</h4>
+    
+      <div class="buttons">
+        <input type="button" (click)="salvarOrientador()" value="Salvar">
+        <input type="button" (click)="cancelar()" value="Cancelar">
+      </div>
+    
+    
+	</form>
+</div>

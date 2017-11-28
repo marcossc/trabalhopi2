@@ -1,0 +1,21 @@
+<h3>{{titulo}}</h3>
+<div class='form'>
+	<form>
+		<label for="nome">Nome</label>
+		<input type="text" id="nome" name="nome" placeholder="Nome" [(ngModel)]="professor.nome">
+
+		<label for="email">Email</label>
+		<input type="text" id="email" name="email" placeholder="Email" [(ngModel)]="professor.email">
+
+		<label for="matricula">Matrícula</label>
+		<input type="number" id="matricula" name="matricula" placeholder="Matrícula" [(ngModel)]="professor.matricula">
+
+		<label for="vagas">Vagas</label>
+		<input type="number" id="vagas" name="vagas" placeholder="Número de vagas" [(ngModel)]="professor.vagas">
+
+		<div class="buttons">
+			<input type="button" (click)="salvarProfessor()" value="Salvar">
+			<input type="button" (click)="cancelar()" value="Cancelar">
+		</div>
+	</form>
+</div>
