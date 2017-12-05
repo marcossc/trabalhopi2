@@ -1,41 +1,51 @@
 import { Injectable } from '@angular/core';
 import { Professor } from '../app/professor';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/RX';
+
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CrudProfessoresService {
-  professores: Professor[] = [
-    { codigo: 1, nome: "Ries", email: "ries@senac.com", matricula: 123, vagas: 2 },
-    { codigo: 2, nome: "Aline", email: "aline@senac.com", matricula: 456, vagas: 3 },
-    { codigo: 3, nome: "Guilherme", email: "guilherme@senac.com", matricula: 789, vagas: 1 },
-    { codigo: 4, nome: "Antônio", email: "antonio@senac.com", matricula: 101, vagas: 5 }
-  ];
-  autoIncrement:number=5;
+  professores:Professor[] = [];
+  uri = "http://localhost:8080/CrudProfessores/webresources/professores/";
 
-  constructor() { }
+  constructor(private http:Http) { }
   
-  getProfessores(){
-    return this.professores;
+  getProfessores(): Observable<Professor[]>{
+    return this.http.get(this.uri)
+    .map((res: Response) => res.json());
+    //return this.professores;
   }
 
-  adicionarProfessor(professor:Professor){
-    professor.codigo=this.autoIncrement++;
-    this.professores.push(professor);
+  adicionarProfessor(professor: Professor):Observable<Professor>{
+    let bodyString = JSON.stringify(professor);
+    let cabecalho = new Headers({"Content-Type":"application/json"});
+    let options = new RequestOptions({headers:cabecalho});
+    
+    return this.http.post(this.uri,bodyString,options)
+      .map( (res:Response) => {} )
+      .catch( (error:any) => Observable.throw(error) );
   }
 
-  getProfessoresPorCodigo(codigo:number){
-    return(this.professores.find(professor => professor.codigo == codigo));
+  getProfessoresPorCodigo(codigo:number): Observable<Professor> {
+    return this.http.get(this.uri+codigo)
+    .map((res: Response) => res.json());
+    //return(this.professores.find(professor => professor.codigo == codigo));
   }
 
-  removerProfessor(professor:Professor){
-    let indice = this.professores.indexOf(professor, 0);
-    if (indice > -1){
-      this.professores.splice(indice, 1);
-    }
+  removerProfessor(codigo:number){
+    return this.http.delete(this.uri+codigo).subscribe();
   }
 
   atualizaProfessor(codigo:number, professor:Professor){
-    let indice = this.professores.indexOf(this.getProfessoresPorCodigo(codigo), 0);
-    this.professores[indice] = professor;
+    let bodyString = JSON.stringify(professor);
+    let cabecalho = new Headers({"Content-Type":"application/json"});
+    let options = new RequestOptions({headers:cabecalho});
+    
+    return this.http.put(this.uri+codigo,bodyString,options)
+      .map( (res:Response) => {} )
+      .catch( (error:any) => Observable.throw(error) );
   }
 
 }

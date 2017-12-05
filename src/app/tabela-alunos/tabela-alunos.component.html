@@ -14,7 +14,7 @@
 		<td>{{aluno.email}}</td>
 		<td>{{aluno.matricula}}</td>
 		<td><a [routerLink]="['/alunos/edicao', aluno.codigo]"><span class="glyphicon glyphicon-pencil"></span></a></td>
-		<td><a routerLink="/alunos/lista" (click)="remover(aluno)"><span class="glyphicon glyphicon-trash"></span></a></td>
+		<td><a routerLink="/alunos/lista" (click)="remover(aluno.codigo)"><span class="glyphicon glyphicon-trash"></span></a></td>
 	</tr>
 </table>
 <br/>

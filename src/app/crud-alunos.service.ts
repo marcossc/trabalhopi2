@@ -1,40 +1,50 @@
 import { Injectable } from '@angular/core';
 import { Aluno } from '../app/aluno';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/RX';
+
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CrudAlunosService {
-  alunos: Aluno[] = [
-    { codigo: 1, nome: "Marcos", email: "marcos@castanheira.info", matricula: 631320297, possuiOrientador: false },
-    { codigo: 2, nome: "Rodrigo", email: "rodrigo@castanheira.info", matricula: 631320197, possuiOrientador: false },
-    { codigo: 3, nome: "Paulo", email: "paulo@castanheira.info", matricula: 631120297, possuiOrientador: false },
-    { codigo: 4, nome: "Roberto", email: "roberto@castanheira.info", matricula: 765436798, possuiOrientador: false }
-  ];
-  autoIncrement:number=5;
+  alunos: Aluno[] = [];
+  uri = "http://localhost:8080/CrudProfessores/webresources/alunos/";
+  
+  constructor(private http:Http) { }
 
-  constructor() { }
-  getAlunos(){
-    return this.alunos;
+  getAlunos(): Observable<Aluno[]>{
+    return this.http.get(this.uri)
+    .map((res: Response) => res.json());
   }
 
-  adicionarAluno(aluno:Aluno){
-    aluno.codigo=this.autoIncrement++;
-    this.alunos.push(aluno);
+  adicionarAluno(aluno:Aluno): Observable<Aluno>{
+    let bodyString = JSON.stringify(aluno);
+    let cabecalho = new Headers({"Content-Type":"application/json"});
+    let options = new RequestOptions({headers:cabecalho});
+    
+    return this.http.post(this.uri,bodyString,options)
+      .map( (res:Response) => {} )
+      .catch( (error:any) => Observable.throw(error) );
   }
 
-  getAlunosPorCodigo(codigo:number){
-    return(this.alunos.find(aluno => aluno.codigo == codigo));
+  getAlunosPorCodigo(codigo:number): Observable<Aluno>{
+    return this.http.get(this.uri+codigo)
+    .map((res: Response) => res.json());
   }
 
-  removerAluno(aluno:Aluno){
-    let indice = this.alunos.indexOf(aluno, 0);
-    if (indice > -1){
-      this.alunos.splice(indice, 1);
-    }
+  removerAluno(codigo:Number){
+    return this.http.delete(this.uri+codigo).subscribe();    
   }
 
   atualizaAluno(codigo:number, aluno:Aluno){
-    let indice = this.alunos.indexOf(this.getAlunosPorCodigo(codigo), 0);
-    this.alunos[indice] = aluno;
+    let bodyString = JSON.stringify(aluno);
+    let cabecalho = new Headers({"Content-Type":"application/json"});
+    let options = new RequestOptions({headers:cabecalho});
+    
+    return this.http.put(this.uri+codigo,bodyString,options)
+      .map( (res:Response) => {} )
+      .catch( (error:any) => Observable.throw(error) );
+    //this.alunos[indice] = aluno;
   }
 
 }

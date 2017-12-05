@@ -16,8 +16,8 @@ export class FormOrientadoresComponent implements OnInit {
   titulo = "Vincular orientador ao aluno";  
   orientador:Orientador;
   codigo:number;
-  alunos: Aluno[];
-  professores: Professor[];
+  alunos;
+  professores;
   orientadores:Orientador[];
   erro: String;
   orientadortemp: Orientador;

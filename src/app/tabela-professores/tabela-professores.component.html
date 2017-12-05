@@ -16,7 +16,7 @@
 		<td>{{professor.matricula}}</td>
 		<td>{{professor.vagas}}</td>
 		<td><a [routerLink]="['/professores/edicao', professor.codigo]"><span class="glyphicon glyphicon-pencil"></span></a></td>
-		<td><a routerLink="/professores/lista" (click)="remover(professor)"><span class="glyphicon glyphicon-trash"></span></a></td>
+		<td><a routerLink="/professores/lista" (click)="remover(professor.codigo)"><span class="glyphicon glyphicon-trash"></span></a></td>
 	</tr>
 </table>
 <br/>

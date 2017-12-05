@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Professor } from "../../app/professor";
 import { CrudProfessoresService } from "../../app/crud-professores.service";
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tabela-professores',
@@ -10,16 +11,19 @@ import { CrudProfessoresService } from "../../app/crud-professores.service";
 export class TabelaProfessoresComponent implements OnInit {
   titulo = 'Tabela de Professores';
   
-  professores:Professor[]=[];
+  professores:Professor[];
 
-  constructor(private servico:CrudProfessoresService) { }
+  constructor(private servico:CrudProfessoresService, private router:Router, private rota:ActivatedRoute) {
+   }
 
   ngOnInit() {
-    this.professores = this.servico.getProfessores();
+    this.servico.getProfessores().subscribe(arrProfessores => {this.professores = arrProfessores});    
   }
 
-  remover(professor:Professor){
-    this.servico.removerProfessor(professor);
+  remover(codigo:number){
+    this.servico.removerProfessor(codigo);
+    alert("Removido com sucesso!");
+    this.servico.getProfessores().subscribe(arrProfessores => {this.professores = arrProfessores});    
   }
 
 }

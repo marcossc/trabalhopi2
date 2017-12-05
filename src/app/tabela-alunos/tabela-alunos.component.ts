@@ -15,11 +15,13 @@ export class TabelaAlunosComponent implements OnInit {
   constructor(private servico:CrudAlunosService) { }
 
   ngOnInit() {
-    this.alunos = this.servico.getAlunos();
+    this.servico.getAlunos().subscribe(arrAlunos => {this.alunos = arrAlunos});    
   }
 
-  remover(aluno:Aluno){
-    this.servico.removerAluno(aluno);
+  remover(codigo:Number){
+    this.servico.removerAluno(codigo);
+    alert("Removido com sucesso!");
+    this.servico.getAlunos().subscribe(arrAlunos => {this.alunos = arrAlunos});
   }
 
 }

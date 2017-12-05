@@ -21,17 +21,28 @@ export class FormAlunosComponent implements OnInit {
     if (isNaN(this.codigo)){
       this.aluno = new Aluno();
     } else {
-      this.aluno = Object.assign({}, this.servico.getAlunosPorCodigo(this.codigo));
+      this.servico.getAlunosPorCodigo(this.codigo)
+      .subscribe(arrProfessores => {this.aluno = arrProfessores});
     }
   }
 
   salvarAluno(){
     if (isNaN(this.codigo)){
-      this.aluno.possuiOrientador = false;
-      this.servico.adicionarAluno(this.aluno);
-      this.aluno = new Aluno();
+      this.servico.adicionarAluno(this.aluno).subscribe(
+        alunoVazio => {
+          this.aluno = new Aluno();
+          alert("Cadastro realizado com sucesso!");
+        },
+        erro => { console.log(erro); }
+      );
     } else {
-      this.servico.atualizaAluno(this.codigo, this.aluno);
+      this.servico.atualizaAluno(this.codigo, this.aluno).subscribe(
+        alunoVazio => {
+          this.aluno = new Aluno();
+          alert("Cadastro atualizado com sucesso!");
+        },
+        erro => { console.log(erro); }
+      ); 
     }
     this.router.navigate(['/alunos/lista']);
   }
